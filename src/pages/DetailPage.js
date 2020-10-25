@@ -1,9 +1,13 @@
 import React from 'react'
+import { MovieDetail } from '../components/MovieDetail';
+import {useHistory} from 'react-router-dom';
 
-export const DetailPage = () => {
+export const DetailPage = ({match}) => {
+    const history = useHistory();
     return (
         <div>
-            <h1>Detail Page</h1>
+            <MovieDetail movieId={match.params.id} />
+            <button className="btn-details" onClick={()=>history.goBack()}>Go Back</button>
         </div>
     )
 }
