@@ -1,59 +1,68 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import { MovieListItem } from './MovieListItem'
-
-/* const movies=[
-    {
-        id: 1,
-        title: "Movie 1",
-        img: "https://m.media-amazon.com/images/M/MV5BN2NkZjA0OWUtZDgyMy00MjIxLWJhZTEtYjdmYzVjZTQ3YWRiL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMzM4MjM0Nzg@._V1_UY1200_CR85,0,630,1200_AL_.jpg",
-        year: 2002
-    },
-    {
-        id: 2,
-        title: "Movie 2",
-        img: "https://m.media-amazon.com/images/M/MV5BN2NkZjA0OWUtZDgyMy00MjIxLWJhZTEtYjdmYzVjZTQ3YWRiL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMzM4MjM0Nzg@._V1_UY1200_CR85,0,630,1200_AL_.jpg",
-        year: 2006
-    },
-    {
-        id: 3,
-        title: "Movie 3",
-        img: "https://m.media-amazon.com/images/M/MV5BN2NkZjA0OWUtZDgyMy00MjIxLWJhZTEtYjdmYzVjZTQ3YWRiL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMzM4MjM0Nzg@._V1_UY1200_CR85,0,630,1200_AL_.jpg",
-        year: 2008
-    },
-    {
-        id: 4,
-        title: "Movie 4",
-        img: "https://m.media-amazon.com/images/M/MV5BN2NkZjA0OWUtZDgyMy00MjIxLWJhZTEtYjdmYzVjZTQ3YWRiL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMzM4MjM0Nzg@._V1_UY1200_CR85,0,630,1200_AL_.jpg",
-        year: 1999
-    },
-
-] */
 
 export const MovieList = () => {
     
     const [movies, setMovies] = useState([]);
+    const loader = useRef(null);
+    const [page, setPage] = useState(0);
 
     useEffect(()=>{
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=cba2729e2b09eabe7bcd684a1788211d&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`;
+        if(page > 0) {
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=cba2729e2b09eabe7bcd684a1788211d&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`;
 
-        fetch (url)
-            .then(res => res.json())
-            .then(data => {
-                //console.log(data);
-                const m = data.results.map(
-                    ({id, title, poster_path, release_date }) =>
-                    ({
-                        id,
-                        title,
-                        img: "https://image.tmdb.org/t/p/w185" + poster_path,
-                        year: release_date.substring(0,4)
-                    })
-                );
-                setMovies(m);
+            fetch (url)
+                .then(res => res.json())
+                .then(data => {
+                    const m = movies.concat(
+                        data.results.map(
+                            ({id, title, poster_path, release_date }) =>
+                            ({
+                                id,
+                                title,
+                                img: "https://image.tmdb.org/t/p/w185" + poster_path,
+                                year: release_date.substring(0,4)
+                            })
+                        )
+                    );
+                    setMovies(m);
 
-                //https://image.tmdb.org/t/p/w185
-            })
-    },[])
+                })
+        }
+        
+    },[page])
+
+    useEffect(() => {
+        var options = {
+           root: null,
+           rootMargin: "20px",
+           threshold: 1.0
+        };
+       // initialize IntersectionObserver
+       // and attaching to Load More div
+        const observer = new IntersectionObserver(handleObserver, options);
+        if (loader.current) {
+           observer.observe(loader.current)
+        }
+
+    }, []);
+
+    /* useEffect(() => {
+        // here we simulate adding new posts to List
+        const newList = postList.list.concat([1,1,1,1]);
+        setPostList({
+            list: newList
+        })
+    }, [page]) */
+
+    // here we handle what happens when user scrolls to Load More div
+   // in this case we just update page variable
+    const handleObserver = (entities) => {
+        const target = entities[0];
+        if (target.isIntersecting) {   
+            setPage((page) => page + 1)
+        }
+    }
     
     return (
         <section className="movie-list">
@@ -62,6 +71,10 @@ export const MovieList = () => {
                     <MovieListItem key={movie.id} movie={movie} />
                 ))
             }
+
+            <div className="loading" ref={loader}>
+                    <h2>Load More</h2>
+            </div>
         </section>
     )
 }
