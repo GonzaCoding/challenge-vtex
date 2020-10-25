@@ -15,7 +15,7 @@ export const MovieListItem = ({movie}) => {
             <img className="movie-img" src={movie.img} />
             <h3 className="movie-title" >{movie.title}</h3>
             <p className="movie-year">{movie.year}</p>
-            <button onClick={(id) => handleClick(movie.id)} className="btn-details">See details</button>
+            <button onClick={() => handleClick(movie.id)} className="btn-details">See details</button>
         </article>
     )
 }
