@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const MovieListItem = ({key, movie}) => {
+export const MovieListItem = ({movie}) => {
     return (
         <article className="movie-card">
             <img className="movie-img" src={movie.img} />
