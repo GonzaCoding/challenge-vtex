@@ -47,13 +47,6 @@ export const MovieList = () => {
 
     }, []);
 
-    /* useEffect(() => {
-        // here we simulate adding new posts to List
-        const newList = postList.list.concat([1,1,1,1]);
-        setPostList({
-            list: newList
-        })
-    }, [page]) */
 
     // here we handle what happens when user scrolls to Load More div
    // in this case we just update page variable
