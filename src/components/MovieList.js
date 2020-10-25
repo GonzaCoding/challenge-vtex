@@ -1,4 +1,5 @@
 import React from 'react'
+import { MovieListItem } from './MovieListItem'
 
 const movies=[
     {
@@ -33,12 +34,7 @@ export const MovieList = () => {
         <section className="movie-list">
             {
                 movies.map(movie =>(
-                    <article className="movie-card" key={movie.id}>
-                        <img className="movie-img" src={movie.img} />
-                        <h3 className="movie-title" >{movie.title}</h3>
-                        <p className="movie-year">{movie.year}</p>
-                        <button className="btn-details">See details</button>
-                    </article>
+                    <MovieListItem key={movie.id} movie={movie} />
                 ))
             }
         </section>
