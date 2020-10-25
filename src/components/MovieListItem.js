@@ -7,7 +7,6 @@ export const MovieListItem = ({movie}) => {
     const history = useHistory();
     
     const handleClick = (id) => {
-        //console.log(id);
         history.push("/" + id)
     }
 
