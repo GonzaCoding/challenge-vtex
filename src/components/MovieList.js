@@ -9,7 +9,7 @@ export const MovieList = () => {
 
     useEffect(()=>{
         if(page > 0) {
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=cba2729e2b09eabe7bcd684a1788211d&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`;
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`;
 
             fetch (url)
                 .then(res => res.json())

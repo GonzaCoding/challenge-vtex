@@ -14,7 +14,7 @@ export const MovieDetail = ({ movieId }) => {
 
     const getMovieDetail = async (movieId) => {
         
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=cba2729e2b09eabe7bcd684a1788211d&language=en-US`;
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_MOVIE_API_KEY}`;
 
         const fetchData = await fetch(url);
 
@@ -31,7 +31,7 @@ export const MovieDetail = ({ movieId }) => {
 
     const getMovieCast = async (movieId) => {
         
-        const urlCast = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=cba2729e2b09eabe7bcd684a1788211d`;
+        const urlCast = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.REACT_APP_MOVIE_API_KEY}`;
 
         const fetchData = await fetch(urlCast);
 
@@ -49,7 +49,7 @@ export const MovieDetail = ({ movieId }) => {
                     <h1>{title}</h1>
                     <img src={img} />
                     <p>Release year: {year}</p>
-                    <p>Genres: 
+                    <p>Genres: </p>
                     <div className="genres-list">
                     {
                         genres.map(genre => (
@@ -58,7 +58,6 @@ export const MovieDetail = ({ movieId }) => {
                     }
                     </div>
                     
-                    </p>
                     <p>Cast:</p>
                     <ul>
                     { 
