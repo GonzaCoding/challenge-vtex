@@ -60,7 +60,7 @@ export const MovieDetail = ({ movieId }) => {
                     
                     <p>Cast:</p>
                     <ul>
-                    { 
+                    {  !loadingMovieCast &&
                         movieCast.map(cast => {
                             //console.log(cast.name);
                             return(
